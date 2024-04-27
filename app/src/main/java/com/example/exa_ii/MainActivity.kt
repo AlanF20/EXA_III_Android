@@ -37,6 +37,9 @@ class MainActivity : ComponentActivity() {
                         composable("add_guitars"){
                             AddGuitarBody(navController = navController, viewModel= viewModel)
                         }
+                        composable("edit_guitars"){
+                            EditGuitarBody(navController = navController, viewModel = viewModel)
+                        }
                     }
                 }
             }

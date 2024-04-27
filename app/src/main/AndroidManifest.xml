@@ -13,6 +13,11 @@
         android:theme="@style/Theme.EXA_II"
         tools:targetApi="31">
         <activity
+            android:name=".EditGuitar"
+            android:exported="false"
+            android:label="@string/title_activity_edit_guitar"
+            android:theme="@style/Theme.EXA_II" />
+        <activity
             android:name=".AddGuitar"
             android:exported="false"
             android:label="@string/title_activity_add_guitar"

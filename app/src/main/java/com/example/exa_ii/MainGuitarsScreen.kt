@@ -88,7 +88,7 @@ fun Main(modifier: Modifier = Modifier, viewModel: GuitarViewModel, navControlle
             if(state.guitarList.isEmpty()){
                 NoGuitarsLayout(padding = it)
             }else{
-                ListOfGuitars(pad = it, viewModel = viewModel)
+                ListOfGuitars(pad = it, viewModel = viewModel, navController = navController)
             }
     }
 }
@@ -110,7 +110,7 @@ fun NoGuitarsLayout(modifier: Modifier = Modifier, padding: PaddingValues = Padd
     }
 }
 @Composable
-fun GuitarCard(modifier: Modifier = Modifier, guitar: Guitar, viewModel: GuitarViewModel){
+fun GuitarCard(modifier: Modifier = Modifier, guitar: Guitar, viewModel: GuitarViewModel, navController: NavController){
     var openAlertDeleteDialog by remember {
         mutableStateOf(false)
     }
@@ -162,7 +162,7 @@ fun GuitarCard(modifier: Modifier = Modifier, guitar: Guitar, viewModel: GuitarV
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate("edit_guitars") },
             ) {
                 Icon(imageVector = Icons.Default.Create, contentDescription = "Editar")
             }
@@ -189,7 +189,7 @@ fun GuitarCard(modifier: Modifier = Modifier, guitar: Guitar, viewModel: GuitarV
     }
 }
 @Composable
-fun ListOfGuitars(modifier:Modifier= Modifier, pad: PaddingValues = PaddingValues(0.dp), viewModel: GuitarViewModel){
+fun ListOfGuitars(modifier:Modifier= Modifier, pad: PaddingValues = PaddingValues(0.dp), viewModel: GuitarViewModel, navController: NavController){
     val state = viewModel.state
 
     Column(modifier = Modifier
@@ -199,7 +199,7 @@ fun ListOfGuitars(modifier:Modifier= Modifier, pad: PaddingValues = PaddingValue
     ) {
         LazyColumn {
             items(state.guitarList){
-                GuitarCard(guitar = it, viewModel = viewModel)
+                GuitarCard(guitar = it, viewModel = viewModel, navController = navController)
 
             }
         }
