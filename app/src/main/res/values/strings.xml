@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">EXA_II</string>
+    <string name="title_activity_main_guitars_screen">MainGuitarsScreen</string>
+    <string name="title_activity_add_guitar">AddGuitar</string>
+</resources>
