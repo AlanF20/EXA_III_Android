@@ -54,7 +54,10 @@ class EditGuitar : ComponentActivity() {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditGuitarBody(navController: NavController, viewModel: GuitarViewModel){
+fun EditGuitarBody(navController: NavController, viewModel: GuitarViewModel, guitarId: Int){
+
+    viewModel.getGuitar(guitarId)
+    val state = viewModel.state
     Scaffold(
         topBar = {
             TopAppBar(
@@ -64,24 +67,29 @@ fun EditGuitarBody(navController: NavController, viewModel: GuitarViewModel){
                 } })
         },
     ) {
-        GuitarEditForm(pad = it, viewModel, navController)
+        if (state.selectedGuitar.model.isEmpty()){
+            Text(text = "Cargando...")
+        }else{
+            GuitarEditForm(pad = it, viewModel, navController, state.selectedGuitar!!)
+        }
     }
 }
 
 
 @Composable
-fun GuitarEditForm(pad: PaddingValues = PaddingValues(0.dp), viewModel: GuitarViewModel, navController: NavController){
+fun GuitarEditForm(pad: PaddingValues = PaddingValues(0.dp), viewModel: GuitarViewModel, navController: NavController, guitarInfo: Guitar){
+
     var openAlertDialog by remember {
         mutableStateOf(false)
     }
     var model by remember {
-        mutableStateOf("")
+        mutableStateOf(guitarInfo.model)
     }
     var brand by remember {
-        mutableStateOf("")
+        mutableStateOf(guitarInfo.brand)
     }
     var price by remember {
-        mutableDoubleStateOf(0.0)
+        mutableDoubleStateOf(guitarInfo.price)
     }
     var selectedType by remember { mutableStateOf(GuitarType.SIX_STRING) }
     var showMenu by remember { mutableStateOf(false) }
@@ -102,10 +110,15 @@ fun GuitarEditForm(pad: PaddingValues = PaddingValues(0.dp), viewModel: GuitarVi
         OutlinedTextField(
             value = price.toString(),
             onValueChange = { price = it.toDoubleOrNull() ?: 0.0 },
-            label = { Text("Precio") }
+            label = { Text(guitarInfo.price.toString()) }
         )
         Box{
-            Text(text = "Click aqui para seleccionar el tipo de guitarra", modifier = Modifier.clickable { showMenu = true })
+            Text(
+                text = "Click aqui para seleccionar el tipo de guitarra",
+                modifier = Modifier
+                    .clickable { showMenu = true }
+                    .padding(10.dp)
+            )
             DropdownMenu(
                 expanded = showMenu,
                 onDismissRequest = { showMenu = false },
@@ -121,7 +134,7 @@ fun GuitarEditForm(pad: PaddingValues = PaddingValues(0.dp), viewModel: GuitarVi
         }
 
         Button(onClick = {
-            val guitar = Guitar(brand = brand, price = price, model = model, type = selectedType)
+            val guitar = Guitar(id = guitarInfo.id, brand = brand, price = price, model = model, type = selectedType)
             viewModel.updateGuitar(guitar)
             openAlertDialog = true
         }) {

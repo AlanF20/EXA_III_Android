@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.room.Room
 import com.example.exa_ii.ui.theme.EXA_IITheme
 
@@ -37,8 +39,10 @@ class MainActivity : ComponentActivity() {
                         composable("add_guitars"){
                             AddGuitarBody(navController = navController, viewModel= viewModel)
                         }
-                        composable("edit_guitars"){
-                            EditGuitarBody(navController = navController, viewModel = viewModel)
+                        composable("edit_guitars/{id}", arguments = listOf(
+                            navArgument("id"){type = NavType.IntType}
+                        )){
+                            EditGuitarBody(navController = navController, viewModel = viewModel, it.arguments!!.getInt("id"))
                         }
                     }
                 }

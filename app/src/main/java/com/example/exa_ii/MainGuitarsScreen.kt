@@ -162,7 +162,7 @@ fun GuitarCard(modifier: Modifier = Modifier, guitar: Guitar, viewModel: GuitarV
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = { navController.navigate("edit_guitars") },
+                onClick = { navController.navigate("edit_guitars/${guitar.id}") },
             ) {
                 Icon(imageVector = Icons.Default.Create, contentDescription = "Editar")
             }

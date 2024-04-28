@@ -22,6 +22,13 @@ class GuitarViewModel(
             }
         }
     }
+    fun getGuitar(id: Int) = viewModelScope.launch {
+        guitarDao.getGuitar(id).collectLatest {
+            state = state.copy(
+                selectedGuitar = it
+            )
+        }
+    }
     fun insertGuitar(guitar: Guitar) = viewModelScope.launch {
         guitarDao.insert(guitar)
     }
